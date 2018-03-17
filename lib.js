@@ -1,4 +1,4 @@
-const gitUtils = require('./utils/git');
+const git = require('git-url-promise');
 const droneUtils = require('./utils/drone');
 const buildUtils = require('./utils/build');
 const print = require('./utils/print');
@@ -6,8 +6,7 @@ const print = require('./utils/print');
 module.exports = (env, input, flags) => {
     const drone = droneUtils(env);
 
-    return gitUtils
-        .getRepository(flags.remote)
+    return git(process.cwd(), flags.remote)
         .then(repo => {
             print.repo(repo);
 

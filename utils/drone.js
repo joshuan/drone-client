@@ -23,7 +23,9 @@ drone.subscribeBuildLogs = ({ owner, name, build, job }) => {
     const host = this.hostname;
 
     return new Promise((resolve, reject) => {
-        const url = `wss://${host}/ws/logs/${owner}/${name}/${build}/${job}`;
+        const url = `wss://${host}/ws/logs/${owner}/${name}/${build.number}/${job.number}`;
+
+        debug(url);
 
         const ws = new WebSocket(url);
 
@@ -32,6 +34,7 @@ drone.subscribeBuildLogs = ({ owner, name, build, job }) => {
         });
 
         ws.on('error', err => {
+            debug(err);
             if (err.message === 'Unexpected server response: 404') {
                 resolve(err);
             } else {
@@ -40,6 +43,7 @@ drone.subscribeBuildLogs = ({ owner, name, build, job }) => {
         });
 
         ws.on('close', () => {
+            debug('Websocket close');
             resolve();
         });
     });

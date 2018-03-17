@@ -6,6 +6,8 @@ const start = require('./lib');
 const meow = require('meow');
 
 const cli = meow(`
+    By default: show last build log from all users in current repository. 
+
     Usage
       $ drone-client <buildNumber>
       
